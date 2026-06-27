@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 import requests 
@@ -7,52 +6,17 @@ from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import datetime
 
+# 載入環境變數
 load_dotenv()
 
 app = Flask(__name__)
-
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
-db = SQLAlchemy(app)
-
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-
-try:
-    with app.app_context():
-        db.create_all()
-except Exception as e:
-    print(f"資料庫提示: {e}")
+# ═══ 🏠 網頁路由 ═══
 
 @app.route("/")
 def home():
     return render_template("home.html")
-
-@app.route("/todo")
-def todo():
-    todos = Todo.query.all()
-    return render_template("todo.html", todos=todos)
-
-@app.route("/add", methods=["POST"])
-def add_todo():
-    content = request.form.get("content")
-    if content:
-        new_todo = Todo(content=content)
-        db.session.add(new_todo)
-        db.session.commit()
-    return redirect("/todo")
-
-@app.route("/update/<int:id>", methods=["POST"])
-def update_todo(id):
-    todo = Todo.query.get(id)
-    if todo:
-        new_content = request.form.get("content")
-        if new_content:
-            todo.content = new_content
-            db.session.commit()
-    return redirect("/todo")
 
 @app.route("/lol_esports", methods=["GET"])
 def lol_esports():
@@ -93,6 +57,7 @@ def lol_esports():
                 })
     except Exception as e:
         print(f"❌ 賽程數據錯誤: {e}")
+        
     if not matches:
         matches = [
             {"time": "11:00 上午", "team_a": "T1", "team_b": "TLAW", "stage": "MSI • 入圍賽淘汰賽", "bo": "BO5"},
@@ -134,8 +99,6 @@ def lol_champions():
         print(f"❌ 現場網頁解析出錯: {e}")
     return render_template("lol_champions.html", champions=champions_list)
 
-
-# ═══ 🚀 傳送門分流路由：處理 Riot ID 並拋接給前端 ═══
 @app.route("/lol_search", methods=["GET", "POST"])
 def lol_search():
     player_id = ""
