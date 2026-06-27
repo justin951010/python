@@ -3,3 +3,4 @@ __pycache
 .env
 instance/
 *.db
+gunicorn

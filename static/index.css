@@ -1,93 +1,159 @@
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      margin: 0;
-      padding: 0;
-      background-color: #f7f7f7;
-      color: #222;
-    }
+/* 🌟 1. 全域基礎重設與美化 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    line-height: 1.7;
+    background-color: #f1f3f5; /* 輕盈的背景灰，讓卡片更立體 */
+    color: #212529;
+}
 
-    header, footer {
-      background-color: #222;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+/* 🖤 2. 黑色高質感導覽列 */
+.custom-navbar {
+    background-color: #1a1a1a !important; /* 強制深邃黑 */
+    padding: 15px 0;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
-    nav {
-      background-color: #444;
-      padding: 10px;
-      text-align: center;
-    }
+/* 🧭 3. Flexbox 彈性排版（確保所有選項按鈕併排在一行、絕不跑位） */
+.custom-navbar .nav-links {
+    max-width: 950px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
 
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
+/* 🔗 4. 導覽列超連結（防禦 Bootstrap 樣式干擾） */
+.custom-navbar .nav-links a {
+    color: #ffffff !important; /* 強制維持白色 */
+    text-decoration: none !important; /* 拔除底線 */
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    padding: 8px 18px;
+    border-radius: 6px;
+}
 
-    main {
-      max-width: 1000px;
-      margin: 20px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-    }
+/* ✨ 5. 導覽列滑鼠懸停效果 */
+.custom-navbar .nav-links a:hover {
+    color: #4b69ff !important; /* 科技藍 */
+    background-color: rgba(255, 255, 255, 0.1); /* 微亮底框 */
+}
 
-    section {
-      margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-    }
+/* ➖ 6. 分隔線美化 */
+.nav-divider {
+    margin: 0 !important;
+    border: none;
+    height: 1px;
+    background-color: #2a2a2a;
+}
 
-    h1, h2, h3 {
-      color: #1d3557;
-    }
+/* 📦 7. 網頁主要內容容器（維持你原本的舒適內距，但提升陰影層次） */
+main {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
 
-    code {
-      background-color: #eee;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
+section {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
 
-    pre {
-      background-color: #272822;
-      color: #f8f8f2;
-      padding: 12px;
-      overflow-x: auto;
-      border-radius: 8px;
-    }
+/* 🔤 8. 標題與文字高亮顏色 */
+h1, h2, h3 {
+    color: #1d3557;
+    font-weight: 700;
+}
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 10px;
-    }
+mark {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
 
-    th, td {
-      border: 1px solid #999;
-      padding: 8px;
-      text-align: left;
-    }
+/* 💻 9. 程式碼與區塊優化（保留原本的 Monokai 暗色風格） */
+code {
+    background-color: #e9ecef;
+    color: #e83e8c;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+}
 
-    form {
-      display: grid;
-      gap: 10px;
-      max-width: 500px;
-    }
+pre {
+    background-color: #272822; /* 經典 Monokai 背景 */
+    color: #f8f8f2;
+    padding: 16px;
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+}
 
-    input, select, textarea, button {
-      padding: 8px;
-      font-size: 16px;
-    }
+/* 📊 10. 表格排版提升 */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+    background-color: #ffffff;
+}
 
-    .tag-box {
-      background: #f1f5f9;
-      border-left: 5px solid #457b9d;
-      padding: 12px;
-      margin: 10px 0;
-    }
+th, td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
 
-    mark {
-      background-color: yellow;
-    }
+th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+
+/* 📝 11. 舊版表單與特定組件保底樣式 */
+form {
+    display: grid;
+    gap: 12px;
+    max-width: 500px;
+}
+
+input, select, textarea, button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4b69ff;
+    box-shadow: 0 0 0 3px rgba(75, 105, 255, 0.25);
+}
+
+.tag-box {
+    background: #f8fafc;
+    border-left: 5px solid #457b9d;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+/* 页脚美化 */
+footer {
+    background-color: #1a1a1a;
+    color: #888888;
+    text-align: center;
+    padding: 25px;
+    font-size: 14px;
+    margin-top: 50px;
+}

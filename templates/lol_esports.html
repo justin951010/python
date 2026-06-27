@@ -1,0 +1,53 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+<!-- 🔑 核心關鍵：把原本只在首頁載入的 index.css 補進來，把黑條叫回來！ -->
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+
+<!-- 載入卡片所需的輕量 Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="py-5" style="background-color: #f8f9fa; min-height: calc(100vh - 56px); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <div class="container" style="max-width: 850px; background: #ffffff; padding: 35px; border-radius: 12px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);">
+        
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" style="color: #212529;">🏆 LoL 國際大賽實時未來賽程</h2>
+            <div class="text-muted fs-6 mt-2">自動同步 First Stand / MSI / Worlds 最新排程（拒絕過期死資料）</div>
+        </div>
+
+        <div class="fw-bold mb-3 fs-5" style="color: #495057;">明天</div>
+
+        {% for match in matches %}
+        <!-- 🎮 獨立對戰卡片 -->
+        <div class="card border-0 mb-3" style="border: 1px solid #e9ecef !important; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    
+                    <!-- 時間 -->
+                    <div class="fw-bold fs-4" style="color: #212529; min-width: 120px;">
+                        {{ match.time.split(' ')[0] }}<span class="text-muted fs-6 fw-normal ms-1">{{ match.time.split(' ')[1] }}</span>
+                    </div>
+                    
+                    <!-- 對決 -->
+                    <div class="d-flex align-items-center justify-content-center flex-grow-1 fw-bold fs-5">
+                        <div class="text-end pe-4" style="width: 150px; color: #212529;">{{ match.team_a }}</div>
+                        <div class="text-muted fw-light fs-4" style="opacity: 0.4;">/</div>
+                        <div class="text-start ps-4" style="width: 150px; color: #212529;">{{ match.team_b }}</div>
+                    </div>
+                    
+                </div>
+                
+                <!-- 底部賽事說明 -->
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px solid #f1f3f5; color: #6c757d; font-size: 0.85rem;">
+                    <div>📍 {{ match.stage }}</div>
+                    <div><span class="badge bg-light text-dark border">{{ match.bo }}</span></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

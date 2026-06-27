@@ -1,17 +1,67 @@
-<!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Flask MVP</title>
-            <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-        </head>
-        <body>
-           {% extends "navbar.html" %}
+{% extends "navbar.html" %}
 
-            {% block content %}
-            <h1>Flask MVP Website</h1>
-            <p>這是一個最小可行版本的 Flask 網站。</p>
-        </body>
-        {% endblock %}
-    </html
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="py-5" style="background-color: #f1f3f5; min-height: calc(100vh - 56px); font-family: sans-serif;">
+    <div class="container" style="max-width: 950px;">
+        
+        <div class="p-5 mb-5 text-white text-center shadow" style="border-radius: 16px; background: linear-gradient(135deg, #1e1b4b, #312e81);">
+            <h1 class="display-5 fw-bold text-white mb-3">🎮 歡迎來到英雄聯盟電競大數據整合平台</h1>
+            <p class="fs-5 text-secondary mb-0">本網站是一個專為電競愛好者量身打造的實時數據觀測系統。透過後端自動化技術，完美整合了最新天梯數據爬取、版本英雄排行與國際賽事追蹤，讓使用者能一站式掌握核心電競動態。</p>
+        </div>
+
+        <h3 class="fw-bold mb-4 text-dark text-center">🎯 本站核心功能架構</h3>
+        
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <div class="fs-3 mb-2">🔍</div>
+                        <h4 class="card-title fw-bold text-dark">真實戰績安全傳送門</h4>
+                        <p class="card-text text-muted">內建智慧格式校對引擎。當使用者輸入召喚師名稱與標籤（Riot ID）時，後端會自動完成安全加密編碼，並建立一條直達官方數據庫的獨立通道，在不跳轉、不破壞主網頁的前提下，100% 精準調閱真實的 KDA 與常用英雄歷史。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <div class="fs-3 mb-2">📈</div>
+                        <h4 class="card-title fw-bold text-dark">OP.GG 實時版本排行</h4>
+                        <p class="card-text text-muted">後台深度整合了高效率網絡爬蟲技術（BeautifulSoup）。系統會現場發送請求並精準解析 OP.GG 官方網站的網頁結構（HTML），秒級獲取當前版本熱門英雄的真實勝率、登場率與禁用率（Ban Rate），提供最具溫度的版本答案。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <div class="fs-3 mb-2">⚔️</div>
+                        <h4 class="card-title fw-bold text-dark">國際電競賽程追蹤</h4>
+                        <p class="card-text text-muted">串接標準電競賽事開源 API 數據通路。系統會全自動過濾並呈獻英雄聯盟年度重大國際賽事（包含全新 First Stand 賽事、MSI 季中邀請賽、Worlds 世界大賽）的淘汰賽對戰組合、比賽精準時間與 BO5 賽制，追賽絕不漏接。</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-5 p-4 bg-white shadow-sm" style="border-radius: 12px;">
+            <h5 class="fw-bold text-dark mb-3">💻 驅動本站的開發技術棧 (Full-Stack Technology)</h5>
+            <p class="text-muted small mb-3">本平台採用前後端分離與模組化思維開發，確保數據讀取的穩定性與防禦外網爬蟲封鎖的安全機制：</p>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="badge bg-dark px-3 py-2" style="font-size: 0.9rem;">Python 3</span>
+                <span class="badge bg-secondary px-3 py-2" style="font-size: 0.9rem;">Flask Web Framework</span>
+                <span class="badge bg-secondary px-3 py-2" style="font-size: 0.9rem;">BeautifulSoup4 (網路爬蟲)</span>
+                <span class="badge bg-secondary px-3 py-2" style="font-size: 0.9rem;">Requests (API 傳輸)</span>
+                <span class="badge bg-secondary px-3 py-2" style="font-size: 0.9rem;">Bootstrap 5 (響應式 UI)</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
