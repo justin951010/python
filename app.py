@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 import requests 
@@ -11,8 +12,25 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
-# ═══ 🏠 網頁路由 ═══
+# 初始化 SQLAlchemy 資料庫核心
+db = SQLAlchemy(app)
+
+# ═══ 🛢️ PostgreSQL 資料表宣告 (對接老師教材技術) ═══
+class PlayerFollow(db.Model):
+    __tablename__ = 'player_follow'
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.String(100), nullable=False, unique=True) # 儲存召喚師名稱與標籤
+
+# 自動建立資料表
+try:
+    with app.app_context():
+        db.create_all()
+except Exception as e:
+    print(f"資料庫提示: {e}")
+
+# ═══ 🏠 網頁功能路由 ═══
 
 @app.route("/")
 def home():
@@ -99,6 +117,7 @@ def lol_champions():
         print(f"❌ 現場網頁解析出錯: {e}")
     return render_template("lol_champions.html", champions=champions_list)
 
+# ═══ 🔍 戰績查詢與資料庫連動路由 ═══
 @app.route("/lol_search", methods=["GET", "POST"])
 def lol_search():
     player_id = ""
@@ -107,13 +126,47 @@ def lol_search():
     if request.method == "POST":
         player_id = request.form.get("player_id", "").strip()
         if player_id:
-            # 處理 Riot ID 格式，將 # 轉為 -
             formatted_id = player_id.replace("#", "-")
             encoded_id = urllib.parse.quote(formatted_id)
-            # 生成標準台服官方對應路徑
             opgg_url = f"https://www.op.gg/summoners/tw/{encoded_id}"
             
-    return render_template("lol_search.html", player_id=player_id, opgg_url=opgg_url)
+    # 從 PostgreSQL 資料庫撈出所有已追蹤的召喚師名單，傳給前端顯示
+    followed_players = PlayerFollow.query.all()
+    
+    # 幫追蹤名單的每個人也預先算好她們的 OP.GG 傳送門網址
+    processed_follows = []
+    for p in followed_players:
+        f_id = p.player_id.replace("#", "-")
+        e_id = urllib.parse.quote(f_id)
+        processed_follows.append({
+            "id": p.id,
+            "player_id": p.player_id,
+            "url": f"https://www.op.gg/summoners/tw/{e_id}"
+        })
+            
+    return render_template("lol_search.html", player_id=player_id, opgg_url=opgg_url, followed_players=processed_follows)
+
+# ═══ ➕ 資料庫動作：新增追蹤 ═══
+@app.route("/follow_add", methods=["POST"])
+def follow_add():
+    player_id = request.form.get("player_id", "").strip()
+    if player_id:
+        # 檢查是否已經追蹤過，避免重複塞入噴錯誤
+        exists = PlayerFollow.query.filter_by(player_id=player_id).first()
+        if not exists:
+            new_follow = PlayerFollow(player_id=player_id)
+            db.session.add(new_follow)
+            db.session.commit()
+    return redirect(url_for("lol_search"))
+
+# ═══ ❌ 資料庫動作：取消追蹤 ═══
+@app.route("/follow_delete/<int:id>", methods=["POST"])
+def follow_delete(id):
+    player = PlayerFollow.query.get(id)
+    if player:
+        db.session.delete(player)
+        db.session.commit()
+    return redirect(url_for("lol_search"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
